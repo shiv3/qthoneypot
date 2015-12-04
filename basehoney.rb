@@ -1,7 +1,7 @@
 require "socket"
 require "base64"
 
-def read_html
+def errormsg
   File.open("index.html") do |f|
     f.read
   end
@@ -15,7 +15,7 @@ def run(portaddr=8080)
     Thread.new(server.accept) do |socket|
       request = socket.gets
       if request.include? "GET"
-        content = read_html
+        content = errormsg
         socket.write <<-EOF
 HTTP/1.1 401 Authorization Required
 Content-Type: text/html; charset=UTF-8
