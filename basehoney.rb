@@ -6,19 +6,14 @@ def read_html
     f.read
   end
 end
-
-def run(portaddr=8001)
+def run(portaddr=8080)
   port = portaddr
   server = TCPServer.open(port)
 
   while true
     begin
     Thread.new(server.accept) do |socket|
-      # p socket.peeraddr
-
       request = socket.gets
-      # p request
-
       if request.include? "GET"
         content = read_html
         socket.write <<-EOF
@@ -42,7 +37,6 @@ EOF
     rescue
     end
   end
-
 server.close
 
 end
